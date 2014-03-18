@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,7 +32,7 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse " role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -92,16 +91,17 @@
 	tempOccupation =$(this).find("occupation").text();
 	tempRole=$(this).find("role").text();
 	console.log("document ready")
-	loadXML(parseXML);
-	loadXML(personProfile);
+	loadXML();
+	
+	
       });
       
-      function loadXML(multipleFunctions){
+      function loadXML(){
 	$.ajax({
 	  type:"GET",
 	  url:"ncaa.xml",
 	  dataType: "xml",
-	  success: multipleFunctions
+	  success: parseXML
 	})
       }//end loadXML()
       
@@ -119,43 +119,41 @@
 	  tempRole=$(this).find("role").text();
 	  
 	  //builds left thumbnals and names
-	  htmlLeft += "<div class='img_with_txt'><a href='#" + tempLastName+"'><img id='idimg' src='" + tempPhoto + "' width ='100px' height='100px' alt='thumbNail'></a><p><a href='#"+ tempLastName+ "' class='link_text'>"+ tempName+"</a></p></div>"
-
+	  htmlLeft += "<div class='img_with_txt'><a href='#"+ tempPhoto+ "'><img src='" + tempPhoto + "' width ='100px' height='100px' alt='thumbNail'></a><p><a href='#"+ tempLastName+ "' class='link_text'>"+ tempName+"</p></div>"
+	  //builds right profiles
+	  htmlRight += "<div class='floatRight'><img id='"+tempPhoto+"' class='profilePic' src='" + tempPhoto + "' width='100px' height='100px' alt='player'>";
+	  htmlRight += "<h3 id='" +tempLastName+"'>" + tempName + "</h3>";
+	  htmlRight += "<ul><li>" + $(this).find("location").text() + "</li>";
+	  htmlRight += "<li>" + $(this).find("occupation").text() + "</li></ul>";
+	  htmlRight += "<p>" + $(this).find("role").text()+"</p>";
+	  htmlRight += "<a href='#'><p style='color:gray;'>Top</p></a></div>";
 	  })
 	
 	  $("#htmlLeft").append(htmlLeft);
-	 
+	  $('#htmlRight').append(htmlRight);
       }
       
 	  //builds right individual profile
-      function personProfile(xml){
-	
-	  console.log('right side');
-	  
-	  $(xml).find("person").each(function(index){
-	    
-	      console.log('right loop');
-	      var img= this;
-	      $('img').click(function(index){
-		  tempName = $(this).attr("name");
-		  tempLastName = $(this).attr("last");
-		  tempPhoto =$(this).find("photo").text();
-		  tempLocation =$(this).find("location").text();
-		  tempOccupation =$(this).find("occupation").text();
-		  tempRole=$(this).find("role").text();
-	      
-		  htmlRight += "<div class='floatRight'><img src='" + tempPhoto + "' width='100px' height='100px' alt='player'></div>";
-		  htmlRight += "<h3 id='" +tempLastName+"'>" + tempName + "</h3>";
-		  htmlRight += "<ul><li>" + $(this).find("location").text() + "</li>";
-		  htmlRight += "<li>" + $(this).find("occupation").text() + "</li></ul>";
-		  htmlRight += "<p>" + $(this).find("role").text()+"</p>";
-		  
-	      console.log('htmlRight');
-	      
-		  $('#htmlRight').append(htmlRight);
-	       })
-	  })
-	}
+//      function personProfile(xml){
+//		  console.log('right side');
+//	$(xml).find("person").each(function(index){
+//		  tempName = $(this).attr("name");
+//		  tempLastName = $(this).attr("last");
+//		  tempPhoto =$(this).find("photo").text();
+//		  tempLocation =$(this).find("location").text();
+//		  tempOccupation =$(this).find("occupation").text();
+//		  tempRole=$(this).find("role").text();
+//	      
+//		  htmlRight += "<div class='floatRight'><img src='" + tempPhoto + "' width='100px' height='100px' alt='player'></div>";
+//		  htmlRight += "<h3 id='" +tempLastName+"'>" + tempName + "</h3>";
+//		  htmlRight += "<ul><li>" + $(this).find("location").text() + "</li>";
+//		  htmlRight += "<li>" + $(this).find("occupation").text() + "</li></ul>";
+//		  htmlRight += "<p>" + $(this).find("role").text()+"</p>";
+//		  htmlRight += "<a href='#'><p style='color:gray;'>Top</p></a>";
+//		  console.log('htmlRight');
+//	})
+//		  $('#htmlRight').append(htmlRight);
+//      }
       
     </script>
   </body>
